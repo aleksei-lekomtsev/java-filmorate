@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class FilmController {
     }
 
     @PostMapping
-    public Film create(@RequestBody Film film) {
+    public Film create(@Valid @RequestBody Film film) {
         log.debug("Получен запрос POST /films");
 
         validateFilm(film);
@@ -40,7 +41,7 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film put(@RequestBody Film film) {
+    public Film put(@Valid @RequestBody Film film) {
         log.debug("Получен запрос PUT /films");
 
         validateFilm(film);
