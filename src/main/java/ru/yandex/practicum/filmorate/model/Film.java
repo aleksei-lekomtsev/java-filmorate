@@ -13,15 +13,16 @@ import java.time.LocalDate;
 public class Film {
     private Integer   id;
 
-    @NotBlank
+    @NotBlank(message = "Name must not be null and must contain at least one non-whitespace character.")
     private String    name;
 
-    @Size(max = 200)
+    @NotNull(message = "Description must not be empty.")
+    @Size(max = 200, message = "Size the description must be lower or equal to 200.")
     private String    description;
 
-    @NotNull
+    @NotNull(message = "Release date must not be empty.")
     private LocalDate releaseDate;
 
-    @Positive
+    @Positive(message = "Duration must be a strictly positive number.")
     private Integer   duration;
 }

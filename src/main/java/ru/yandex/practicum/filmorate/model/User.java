@@ -14,16 +14,16 @@ import java.time.LocalDate;
 public class User {
     private Integer id;
 
-    @NotEmpty
-    @Email
+    @NotEmpty(message = "Email must not be empty.")
+    @Email(message = "Email must be well-formed.")
     private String email;
 
-    @Pattern(regexp = "^[a-zA-Z0-9]{6,12}$", message = "login must be of 6 to 12 length with no special characters")
+    @Pattern(regexp = "^[a-zA-Z0-9]{6,12}$", message = "Login must be of 6 to 12 length with no special characters.")
     private String login;
 
     private String name;
 
-    @NotNull
-    @PastOrPresent
+    @NotNull(message = "Birthday must not be empty.")
+    @PastOrPresent(message = "Birthday must be a date in the past or in the present.")
     private LocalDate birthday;
 }
