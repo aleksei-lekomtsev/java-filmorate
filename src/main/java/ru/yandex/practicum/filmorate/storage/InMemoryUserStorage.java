@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -9,12 +10,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class InMemoryUserStorage implements UserStorage {
     private static Integer            id    = 0;
     private final  Map<Integer, User> users = new HashMap<>();
 
+    // > Может же быть случай, когда user==null, что тогда будет?
+    // Думаю произойдет NullPointerException, добавил проверка на null
     @Override
     public User createUser(User user) {
+        if (user == null) {
+            log.warn("Произошла непредвиденная ошибка. Значение user не может быть null");
+            throw new RuntimeException("Произошла непредвиденная ошибка. Значение user не может быть null");
+        }
         user.setId(++id);
         users.put(user.getId(), user);
         return user;
@@ -22,7 +30,12 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) {
+        if (user == null) {
+            log.warn("Произошла непредвиденная ошибка. Значение user не может быть null");
+            throw new RuntimeException("Произошла непредвиденная ошибка. Значение user не может быть null");
+        }
         if(!users.containsKey(user.getId())) {
+            log.warn("Пользователь с id: " + user.getId() + " не найден.");
             throw new UserNotFoundException("Пользователь с id: " + user.getId() + " не найден.");
         }
 

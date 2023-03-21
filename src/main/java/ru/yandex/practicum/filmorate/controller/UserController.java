@@ -31,6 +31,7 @@ public class UserController {
 
     @GetMapping
     public Collection<User> findAll() {
+        log.debug("Получен запрос GET /users");
         return userService.findAll();
     }
 
@@ -50,6 +51,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User findUser(@PathVariable("id") Integer id) {
+        log.debug("Получен запрос GET /users/{id}");
         return userService.findUserById(id);
     }
 
@@ -67,15 +69,14 @@ public class UserController {
 
     @GetMapping("/{id}/friends")
     public Collection<User> findFriends(@PathVariable("id") Integer id) {
+        log.debug("Получен запрос GET /users/{id}/friends");
         return userService.findFriends(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public Collection<User> findCommonFriends
-            (
-                    @PathVariable("id") Integer id,
-                    @PathVariable("otherId") Integer otherId
-            ) {
+    public Collection<User> findCommonFriends(@PathVariable("id") Integer id,
+                                              @PathVariable("otherId") Integer otherId) {
+        log.debug("Получен запрос GET /users/{id}/friends/common/{otherId}");
         return userService.findCommonFriends(id, otherId);
     }
 }

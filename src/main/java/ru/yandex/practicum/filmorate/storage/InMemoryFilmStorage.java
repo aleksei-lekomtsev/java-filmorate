@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -9,20 +10,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class InMemoryFilmStorage implements FilmStorage {
     private static Integer            id    = 0;
     private final      Map<Integer, Film> films = new HashMap<>();
 
+    // > Может же быть случай, когда film==null, что тогда будет?
+    // Думаю произойдет NullPointerException, добавил проверка на null
     @Override
     public Film createFilm(Film film) {
+        if (film == null) {
+            log.warn("Произошла непредвиденная ошибка. Значение film не может быть null");
+            throw new RuntimeException("Произошла непредвиденная ошибка. Значение film не может быть null");
+        }
         film.setId(++id);
         films.put(film.getId(), film);
         return film;
     }
 
+    // > Почему не используешь логирование при не удачной попытке?
+    // Тоже упустил момент с логированием, вроде добавил)
     @Override
     public Film updateFilm(Film film) {
+        if (film == null) {
+            log.warn("Произошла непредвиденная ошибка. Значение film не может быть null");
+            throw new RuntimeException("Произошла непредвиденная ошибка. Значение film не может быть null");
+        }
         if(!films.containsKey(film.getId())) {
+            log.warn("Фильм с id: " + film.getId() + " не найден.");
             throw new FilmNotFoundException("Фильм с id: " + film.getId() + " не найден.");
         }
 

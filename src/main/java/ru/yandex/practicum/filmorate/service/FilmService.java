@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
@@ -11,6 +12,7 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class FilmService {
     private final FilmStorage filmStorage;
 
@@ -41,11 +43,14 @@ public class FilmService {
         return film;
     }
 
+    // > Почему не используешь логирование при не удачной попытке?
+    // Тоже упустил момент с логированием, вроде добавил)
     public Film deleteLike(Integer id, Integer userId) {
         Film film = filmStorage.findFilmById(id);
         if (film.getLikes().contains(userId)) {
             film.getLikes().remove(userId);
         } else {
+            log.warn("Пользователь с id: " + userId + " не найден.");
             throw new UserNotFoundException("Пользователь с id: " + userId + " не найден.");
         }
         return film;
