@@ -43,8 +43,6 @@ public class FilmService {
         return film;
     }
 
-    // > Почему не используешь логирование при не удачной попытке?
-    // Тоже упустил момент с логированием, вроде добавил)
     public Film deleteLike(Integer id, Integer userId) {
         Film film = filmStorage.findFilmById(id);
         if (film.getLikes().contains(userId)) {

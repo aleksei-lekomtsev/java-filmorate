@@ -30,10 +30,6 @@ public class FilmController {
         this.filmService = filmService;
     }
 
-    // > А почему в этом методе и findMostLikedFilms не проводишь логирование?
-    // Где-то я читал, может в пачке, что логирование вроде как делать в методах, которые изменяют данные.
-    // GET метод, если я правильно понимаю, не изменяет данные, поэтому не добавлял лоирование. Сейчас добавил)
-    //
     @GetMapping
     public Collection<Film> findAll() {
         log.debug("Получен запрос GET /films");

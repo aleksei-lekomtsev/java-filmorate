@@ -15,8 +15,6 @@ public class InMemoryFilmStorage implements FilmStorage {
     private static Integer            id    = 0;
     private final      Map<Integer, Film> films = new HashMap<>();
 
-    // > Может же быть случай, когда film==null, что тогда будет?
-    // Думаю произойдет NullPointerException, добавил проверка на null
     @Override
     public Film createFilm(Film film) {
         if (film == null) {
@@ -28,8 +26,6 @@ public class InMemoryFilmStorage implements FilmStorage {
         return film;
     }
 
-    // > Почему не используешь логирование при не удачной попытке?
-    // Тоже упустил момент с логированием, вроде добавил)
     @Override
     public Film updateFilm(Film film) {
         if (film == null) {

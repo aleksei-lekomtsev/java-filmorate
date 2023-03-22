@@ -14,8 +14,6 @@ import ru.yandex.practicum.filmorate.model.ErrorResponse;
 @Slf4j
 public class ErrorHandler {
 
-    // > В принципе все хорошо, но почему не проводишь логирование?
-    // Привет, Семён! Упустил момент с логированием, вроде добавил, спасибо!)
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidationException(final ValidationException e) {

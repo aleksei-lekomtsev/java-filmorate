@@ -15,8 +15,6 @@ public class InMemoryUserStorage implements UserStorage {
     private static Integer            id    = 0;
     private final  Map<Integer, User> users = new HashMap<>();
 
-    // > Может же быть случай, когда user==null, что тогда будет?
-    // Думаю произойдет NullPointerException, добавил проверка на null
     @Override
     public User createUser(User user) {
         if (user == null) {
