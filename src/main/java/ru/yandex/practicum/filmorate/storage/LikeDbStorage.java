@@ -28,11 +28,10 @@ public class LikeDbStorage {
         String sqlQuery = "delete from \"like\" where \"film_id\" = ? AND \"user_id\" = ?";
         if (jdbcTemplate.update(sqlQuery, filmId, userId) == 0) {
             log.info("Лайк для фильма с идентификатором {} и пользователя с идентификатором {} не найден", filmId, userId);
-            throw new LikeNotFoundException
-                    (
-                            "Лайк для фильма с идентификатором " + filmId + " и пользователем с идентификатором " +
-                                    userId + " не найден."
-                    );
+            throw new LikeNotFoundException(
+                    "Лайк для фильма с идентификатором " + filmId + " и пользователем с идентификатором " +
+                            userId + " не найден."
+            );
         }
     }
 
