@@ -9,14 +9,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Component("inMemoryUserStorage")
 @Slf4j
 public class InMemoryUserStorage implements UserStorage {
     private static Integer            id    = 0;
     private final  Map<Integer, User> users = new HashMap<>();
 
     @Override
-    public User createUser(User user) {
+    public User create(User user) {
         if (user == null) {
             log.warn("Произошла непредвиденная ошибка. Значение user не может быть null");
             throw new RuntimeException("Произошла непредвиденная ошибка. Значение user не может быть null");
@@ -27,7 +27,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User updateUser(User user) {
+    public User update(User user) {
         if (user == null) {
             log.warn("Произошла непредвиденная ошибка. Значение user не может быть null");
             throw new RuntimeException("Произошла непредвиденная ошибка. Значение user не может быть null");
@@ -47,7 +47,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User findUserById(Integer id) {
+    public User findById(Integer id) {
         if(!users.containsKey(id)) {
             throw new UserNotFoundException("Пользователь с id: " + id + " не найден.");
         }
@@ -55,7 +55,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public Collection<User> findUsersByIds(Collection<Integer> ids) {
+    public Collection<User> findByIds(Collection<Integer> ids) {
         Map<Integer, User> users = new HashMap<> (this.users);
         users.keySet().retainAll(ids);
         return users.values();

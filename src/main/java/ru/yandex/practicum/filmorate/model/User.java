@@ -28,6 +28,4 @@ public class User {
     @NotNull(message = "Birthday must not be empty.")
     @PastOrPresent(message = "Birthday must be a date in the past or in the present.")
     private LocalDate birthday;
-
-    private final Set<Integer> friends = new HashSet<>();
 }

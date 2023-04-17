@@ -9,14 +9,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Component("inMemoryFilmStorage")
 @Slf4j
 public class InMemoryFilmStorage implements FilmStorage {
     private static Integer            id    = 0;
-    private final      Map<Integer, Film> films = new HashMap<>();
+    private final  Map<Integer, Film> films = new HashMap<>();
 
     @Override
-    public Film createFilm(Film film) {
+    public Film create(Film film) {
         if (film == null) {
             log.warn("Произошла непредвиденная ошибка. Значение film не может быть null");
             throw new RuntimeException("Произошла непредвиденная ошибка. Значение film не может быть null");
@@ -27,12 +27,12 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Film updateFilm(Film film) {
+    public Film update(Film film) {
         if (film == null) {
             log.warn("Произошла непредвиденная ошибка. Значение film не может быть null");
             throw new RuntimeException("Произошла непредвиденная ошибка. Значение film не может быть null");
         }
-        if(!films.containsKey(film.getId())) {
+        if (!films.containsKey(film.getId())) {
             log.warn("Фильм с id: " + film.getId() + " не найден.");
             throw new FilmNotFoundException("Фильм с id: " + film.getId() + " не найден.");
         }
@@ -47,10 +47,17 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Film findFilmById(Integer id) {
-        if(!films.containsKey(id)) {
+    public Film findById(Integer id) {
+        if (!films.containsKey(id)) {
             throw new FilmNotFoundException("Фильм с id: " + id + " не найден.");
         }
         return films.get(id);
+    }
+
+    @Override
+    public Collection<Film> findByIds(Collection<Integer> ids) {
+        Map<Integer, Film> films = new HashMap<>(this.films);
+        films.keySet().retainAll(ids);
+        return films.values();
     }
 }
