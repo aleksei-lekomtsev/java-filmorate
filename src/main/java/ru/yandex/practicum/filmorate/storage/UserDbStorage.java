@@ -49,12 +49,12 @@ public class UserDbStorage implements UserStorage {
         String sqlQuery = "update \"user\" set " +
                 "\"email\" = ?, \"login\" = ?, \"name\" = ?, \"birthday\" = ? " +
                 "where \"id\" = ?";
-        if (jdbcTemplate.update(sqlQuery
-                , user.getEmail()
-                , user.getLogin()
-                , user.getName()
-                , user.getBirthday()
-                , user.getId()) == 0) {
+        if (jdbcTemplate.update(sqlQuery,
+                user.getEmail(),
+                user.getLogin(),
+                user.getName(),
+                user.getBirthday(),
+                user.getId()) == 0) {
             log.info("Пользователь с идентификатором {} не найден", user.getId());
             throw new UserNotFoundException("Пользователь с идентификатором " + user.getId() + " не найден.");
         }
