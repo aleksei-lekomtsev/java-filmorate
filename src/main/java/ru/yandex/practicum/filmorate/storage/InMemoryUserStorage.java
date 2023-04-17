@@ -32,7 +32,7 @@ public class InMemoryUserStorage implements UserStorage {
             log.warn("Произошла непредвиденная ошибка. Значение user не может быть null");
             throw new RuntimeException("Произошла непредвиденная ошибка. Значение user не может быть null");
         }
-        if(!users.containsKey(user.getId())) {
+        if (!users.containsKey(user.getId())) {
             log.warn("Пользователь с id: " + user.getId() + " не найден.");
             throw new UserNotFoundException("Пользователь с id: " + user.getId() + " не найден.");
         }
@@ -48,7 +48,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User findById(Integer id) {
-        if(!users.containsKey(id)) {
+        if (!users.containsKey(id)) {
             throw new UserNotFoundException("Пользователь с id: " + id + " не найден.");
         }
         return users.get(id);
@@ -56,7 +56,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public Collection<User> findByIds(Collection<Integer> ids) {
-        Map<Integer, User> users = new HashMap<> (this.users);
+        Map<Integer, User> users = new HashMap<>(this.users);
         users.keySet().retainAll(ids);
         return users.values();
     }
