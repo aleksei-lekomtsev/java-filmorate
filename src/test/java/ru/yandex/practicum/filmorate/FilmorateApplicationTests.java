@@ -22,17 +22,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 @AutoConfigureTestDatabase
 class FilmorateApplicationTests {
-    private final UserStorage userStorage;
-    private final FilmStorage filmStorage;
+    private final UserStorage    userStorage;
+    private final FilmStorage    filmStorage;
     private final MpaDbStorage   mpaDbStorage;
     private final GenreDbStorage genreDbStorage;
 
     @Autowired
-    public FilmorateApplicationTests(@Qualifier("filmDbStorage") FilmStorage filmStorage,
-                                     @Qualifier("userDbStorage") UserStorage userStorage,
-                                     GenreDbStorage genreDbStorage,
-                                     MpaDbStorage mpaDbStorage
-                                     ) {
+    public FilmorateApplicationTests(@Qualifier("filmDbStorage") FilmStorage filmStorage, @Qualifier("userDbStorage") UserStorage userStorage, GenreDbStorage genreDbStorage, MpaDbStorage mpaDbStorage) {
         this.userStorage = userStorage;
         this.filmStorage = filmStorage;
         this.mpaDbStorage = mpaDbStorage;
@@ -51,8 +47,7 @@ class FilmorateApplicationTests {
 
         user = userStorage.findById(1);
 
-        assertThat(user.getId())
-                .isEqualTo(1);
+        assertThat(user.getId()).isEqualTo(1);
     }
 
     @Test
@@ -71,16 +66,14 @@ class FilmorateApplicationTests {
 
         film = filmStorage.findById(1);
 
-        assertThat(film.getName())
-                .isEqualTo("new name");
+        assertThat(film.getName()).isEqualTo("new name");
     }
 
     @Test
     public void testFindMpaById() {
         Mpa mpa = mpaDbStorage.findById(1);
 
-        assertThat(mpa.getName())
-                .isEqualTo("G");
+        assertThat(mpa.getName()).isEqualTo("G");
     }
 
     @Test
@@ -91,28 +84,22 @@ class FilmorateApplicationTests {
         Mpa mpa4 = mpaDbStorage.findById(4);
         Mpa mpa5 = mpaDbStorage.findById(5);
 
-        assertThat(mpa1.getName())
-                .isEqualTo("G");
+        assertThat(mpa1.getName()).isEqualTo("G");
 
-        assertThat(mpa2.getName())
-                .isEqualTo("PG");
+        assertThat(mpa2.getName()).isEqualTo("PG");
 
-        assertThat(mpa3.getName())
-                .isEqualTo("PG-13");
+        assertThat(mpa3.getName()).isEqualTo("PG-13");
 
-        assertThat(mpa4.getName())
-                .isEqualTo("R");
+        assertThat(mpa4.getName()).isEqualTo("R");
 
-        assertThat(mpa5.getName())
-                .isEqualTo("NC-17");
+        assertThat(mpa5.getName()).isEqualTo("NC-17");
     }
 
     @Test
     public void testFindGenreById() {
         Genre genre = genreDbStorage.findById(1);
 
-        assertThat(genre.getName())
-                .isEqualTo("Комедия");
+        assertThat(genre.getName()).isEqualTo("Комедия");
     }
 
     @Test
@@ -124,22 +111,16 @@ class FilmorateApplicationTests {
         Genre genre5 = genreDbStorage.findById(5);
         Genre genre6 = genreDbStorage.findById(6);
 
-        assertThat(genre1.getName())
-                .isEqualTo("Комедия");
+        assertThat(genre1.getName()).isEqualTo("Комедия");
 
-        assertThat(genre2.getName())
-                .isEqualTo("Драма");
+        assertThat(genre2.getName()).isEqualTo("Драма");
 
-        assertThat(genre3.getName())
-                .isEqualTo("Мультфильм");
+        assertThat(genre3.getName()).isEqualTo("Мультфильм");
 
-        assertThat(genre4.getName())
-                .isEqualTo("Триллер");
+        assertThat(genre4.getName()).isEqualTo("Триллер");
 
-        assertThat(genre5.getName())
-                .isEqualTo("Документальный");
+        assertThat(genre5.getName()).isEqualTo("Документальный");
 
-        assertThat(genre6.getName())
-                .isEqualTo("Боевик");
+        assertThat(genre6.getName()).isEqualTo("Боевик");
     }
 }

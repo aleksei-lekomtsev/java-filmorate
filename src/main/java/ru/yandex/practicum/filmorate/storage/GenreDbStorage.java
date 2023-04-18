@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.storage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.GenreNotFoundException;
+import ru.yandex.practicum.filmorate.exception.EntityNotFoundException;
 import ru.yandex.practicum.filmorate.model.Genre;
 
 import java.sql.ResultSet;
@@ -29,11 +29,11 @@ public class GenreDbStorage {
     }
 
     public Collection<Genre> findAll() {
-        String           sqlQuery = "select * from \"genre\"";
+        String            sqlQuery = "select * from \"genre\"";
         Collection<Genre> result   = jdbcTemplate.query(sqlQuery, this::mapRowToModel);
         if (result.isEmpty()) {
             log.info("Жанры не найдены.");
-            throw new GenreNotFoundException("Жанры не найдены.");
+            throw new EntityNotFoundException(Genre.class, "Жанры не найдены.");
         } else {
             return result;
         }
@@ -44,7 +44,7 @@ public class GenreDbStorage {
         List<Genre> result   = jdbcTemplate.query(sqlQuery, this::mapRowToModel, id);
         if (result.isEmpty()) {
             log.info("Жанр с идентификатором {} не найден.", id);
-            throw new GenreNotFoundException("Жанр с id: " + id + " не найден.");
+            throw new EntityNotFoundException(Genre.class, "Жанр с id: " + id + " не найден.");
         } else {
             log.info("Найден жанр: {} {}", id, result.get(0).getName());
             return result.get(0);
@@ -52,8 +52,8 @@ public class GenreDbStorage {
     }
 
     public Collection<Genre> findByIds(Collection<Integer> ids) {
-        String           inSql    = String.join(",", Collections.nCopies(ids.size(), "?"));
-        String           sqlQuery = String.format("select * from \"genre\" where \"id\" in (%s)", inSql);
+        String            inSql    = String.join(",", Collections.nCopies(ids.size(), "?"));
+        String            sqlQuery = String.format("select * from \"genre\" where \"id\" in (%s)", inSql);
         Collection<Genre> result   = jdbcTemplate.query(sqlQuery, this::mapRowToModel, ids.toArray());
         return result;
     }

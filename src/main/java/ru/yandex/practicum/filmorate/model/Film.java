@@ -8,27 +8,27 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 
 @Data
 public class Film {
-    private Integer   id;
+    private Integer id;
 
     @NotBlank(message = "Name must not be null and must contain at least one non-whitespace character.")
-    private String    name;
+    private String name;
 
     @NotNull(message = "Description must not be empty.")
     @Size(max = 200, message = "Size the description must be lower or equal to 200.")
-    private String    description;
+    private String description;
 
     @NotNull(message = "Release date must not be empty.")
     private LocalDate releaseDate;
 
     @Positive(message = "Duration must be a strictly positive number.")
-    private Integer   duration;
+    private Integer duration;
 
     private final Mpa mpa = new Mpa();
 
-    private final Collection<Genre> genres = new HashSet<>();
+    private final Collection<Genre> genres = new LinkedHashSet<>();
 }

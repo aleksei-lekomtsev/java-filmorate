@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
+import ru.yandex.practicum.filmorate.exception.EntityNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.sql.PreparedStatement;
@@ -59,7 +59,7 @@ public class FilmDbStorage implements FilmStorage {
                 film.getMpa().getId(),
                 film.getId()) == 0) {
             log.info("Фильм с идентификатором {} не найден", film.getId());
-            throw new FilmNotFoundException("Фильм с идентификатором " + film.getId() + " не найден.");
+            throw new EntityNotFoundException(Film.class, "Фильм с идентификатором " + film.getId() + " не найден.");
         }
         return film;
     }
@@ -84,7 +84,7 @@ public class FilmDbStorage implements FilmStorage {
         List<Film> result   = jdbcTemplate.query(sqlQuery, this::mapRowToModel, id);
         if (result.isEmpty()) {
             log.info("Фильм с идентификатором {} не найден.", id);
-            throw new FilmNotFoundException("Фильм с id: " + id + " не найден.");
+            throw new EntityNotFoundException(Film.class, "Фильм с id: " + id + " не найден.");
         } else {
             log.info("Найден фильм: {} {}", id, result.get(0).getName());
             return result.get(0);

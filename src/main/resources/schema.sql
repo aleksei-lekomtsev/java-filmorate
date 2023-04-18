@@ -54,3 +54,6 @@ ALTER TABLE "film_genre" ADD FOREIGN KEY ("genre_id") REFERENCES "genre" ("id");
 ALTER TABLE "film" ADD FOREIGN KEY ("mpa_id") REFERENCES "mpa" ("id");
 
 ALTER TABLE "friend" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+
+CREATE UNIQUE INDEX IF NOT EXISTS USER_EMAIL_UINDEX ON "user" ("email");
+CREATE UNIQUE INDEX IF NOT EXISTS USER_LOGIN_UINDEX on "user" ("login");

@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.storage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.MpaNotFoundException;
+import ru.yandex.practicum.filmorate.exception.EntityNotFoundException;
 import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.sql.ResultSet;
@@ -32,7 +32,7 @@ public class MpaDbStorage {
         Collection<Mpa> result   = jdbcTemplate.query(sqlQuery, this::mapRowToModel);
         if (result.isEmpty()) {
             log.info("MPA не найдены.");
-            throw new MpaNotFoundException("MPA не найдены.");
+            throw new EntityNotFoundException(Mpa.class, "MPA не найдены.");
         } else {
             return result;
         }
@@ -43,7 +43,7 @@ public class MpaDbStorage {
         List<Mpa> result   = jdbcTemplate.query(sqlQuery, this::mapRowToModel, id);
         if (result.isEmpty()) {
             log.info("MPA с идентификатором {} не найден.", id);
-            throw new MpaNotFoundException("Mpa с id: " + id + " не найден.");
+            throw new EntityNotFoundException(Mpa.class, "Mpa с id: " + id + " не найден.");
         } else {
             log.info("Найден mpa: {} {}", id, result.get(0).getName());
             return result.get(0);

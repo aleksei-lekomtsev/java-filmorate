@@ -5,7 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
+import ru.yandex.practicum.filmorate.exception.EntityNotFoundException;
+
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.PreparedStatement;
@@ -27,8 +28,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User create(User user) {
-        String sqlQuery = "insert into \"user\"(\"email\", \"login\", \"name\", \"birthday\") " +
-                "values (?, ?, ?, ?)";
+        String sqlQuery = "insert into \"user\"(\"email\", \"login\", \"name\", \"birthday\") " + "values (?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -46,17 +46,11 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User update(User user) {
-        String sqlQuery = "update \"user\" set " +
-                "\"email\" = ?, \"login\" = ?, \"name\" = ?, \"birthday\" = ? " +
-                "where \"id\" = ?";
-        if (jdbcTemplate.update(sqlQuery,
-                user.getEmail(),
-                user.getLogin(),
-                user.getName(),
-                user.getBirthday(),
-                user.getId()) == 0) {
+        String sqlQuery = "update \"user\" set " + "\"email\" = ?, \"login\" = ?, \"name\" = ?, \"birthday\" = ? " + "where \"id\" = ?";
+        if (jdbcTemplate.update(sqlQuery, user.getEmail(), user.getLogin(), user.getName(), user.getBirthday(), user.getId()) == 0) {
             log.info("Пользователь с идентификатором {} не найден", user.getId());
-            throw new UserNotFoundException("Пользователь с идентификатором " + user.getId() + " не найден.");
+            throw new EntityNotFoundException(User.class,
+                    "Пользователь с идентификатором " + user.getId() + " не найден.");
         }
         return user;
     }
@@ -67,7 +61,7 @@ public class UserDbStorage implements UserStorage {
         Collection<User> result   = jdbcTemplate.query(sqlQuery, this::mapRowToModel);
         if (result.isEmpty()) {
             log.info("Пользователи не найдены.");
-            throw new UserNotFoundException("Пользователи не найдены.");
+            throw new EntityNotFoundException(User.class, "Пользователи не найдены.");
         } else {
             return result;
         }
@@ -79,7 +73,7 @@ public class UserDbStorage implements UserStorage {
         List<User> result   = jdbcTemplate.query(sqlQuery, this::mapRowToModel, id);
         if (result.isEmpty()) {
             log.info("Пользователь с идентификатором {} не найден.", id);
-            throw new UserNotFoundException("Пользователь с id: " + id + " не найден.");
+            throw new EntityNotFoundException(User.class, "Пользователь с id: " + id + " не найден.");
         } else {
             log.info("Найден пользователь: {} {}", id, result.get(0).getEmail());
             return result.get(0);
@@ -93,7 +87,7 @@ public class UserDbStorage implements UserStorage {
         Collection<User> result   = jdbcTemplate.query(sqlQuery, this::mapRowToModel, ids.toArray());
         if (result.isEmpty()) {
             log.info("Пользователи с идентификаторами {} не найдены.", ids.toArray());
-            throw new UserNotFoundException("Пользователи с идентификаторами " + ids + " не найдены.");
+            throw new EntityNotFoundException(User.class, "Пользователи с идентификаторами " + ids + " не найдены.");
         } else {
             return result;
         }

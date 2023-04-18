@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class FilmGenre {
     private Integer filmId;
-    private Integer  genreId;
+    private Integer genreId;
 }

@@ -3,7 +3,8 @@ package ru.yandex.practicum.filmorate.storage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.LikeNotFoundException;
+import ru.yandex.practicum.filmorate.exception.EntityNotFoundException;
+import ru.yandex.practicum.filmorate.model.Like;
 
 import java.util.Collection;
 
@@ -28,7 +29,7 @@ public class LikeDbStorage {
         String sqlQuery = "delete from \"like\" where \"film_id\" = ? AND \"user_id\" = ?";
         if (jdbcTemplate.update(sqlQuery, filmId, userId) == 0) {
             log.info("Лайк для фильма с идентификатором {} и пользователя с идентификатором {} не найден", filmId, userId);
-            throw new LikeNotFoundException(
+            throw new EntityNotFoundException(Like.class,
                     "Лайк для фильма с идентификатором " + filmId + " и пользователем с идентификатором " +
                             userId + " не найден."
             );
