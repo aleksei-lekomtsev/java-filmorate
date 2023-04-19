@@ -8,8 +8,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Data
@@ -28,6 +26,4 @@ public class User {
     @NotNull(message = "Birthday must not be empty.")
     @PastOrPresent(message = "Birthday must be a date in the past or in the present.")
     private LocalDate birthday;
-
-    private final Set<Integer> friends = new HashSet<>();
 }
